@@ -37,9 +37,9 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" class="bg-gradient-primary" >
 
-    <!-- Page Wrapper -->
+    <!-- Page Wrapper --> 
     <div id="wrapper">
         {% block side_bar %}
 
@@ -160,7 +160,7 @@
             </div>
 
         </ul>
-        {% endblock  side_bar%}
+        {% endblock side_bar%}
 
         <!-- End of Sidebar -->
 
@@ -429,7 +429,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{% url 'bases:logout' %}">Salir</a>
                 </div>
             </div>
         </div>
