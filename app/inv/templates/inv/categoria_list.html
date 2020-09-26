@@ -11,7 +11,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
           <div class="dropdown-header">Acciones</div>
-          <a class="dropdown-item" href=""><i class="far fa-calendar-plus"></i> Nueva</a>
+          <a class="dropdown-item" href="{% url 'inv:categoria_new' %} "><i class="far fa-calendar-plus"></i> Nueva</a>
           <a class="dropdown-item" href="#">Another action</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Something else here</a>
@@ -41,7 +41,7 @@
                   <td>{{ item.fc|date:"d/m/Y H:i:s" }}</td>
                   <td>{{ item.fm|date:"d/m/Y H:i:s" }}</td>
                   <td>
-                    <a href="" class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a> 
+                    <a href="{% url 'inv:categoria_edit' item.id %} " class="btn btn-warning btn-circle" role="button"><i class="far fa-edit"></i></a>
                     <a href="" class="btn btn-danger btn-circle" role="button"><i class="far fa-trash-alt"></i></a>
                   </td>
               </tr>
