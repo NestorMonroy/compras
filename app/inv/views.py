@@ -3,8 +3,8 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import  LoginRequiredMixin
 
-from .models import Categoria, SubCategoria
-from .forms import CategoriaForm, SubCategoriaForm
+from .models import Categoria, SubCategoria, Marca
+from .forms import CategoriaForm, SubCategoriaForm, MarcaForm
 
 class CategoriaView(LoginRequiredMixin, generic.ListView):
     model = Categoria
@@ -63,3 +63,58 @@ class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user
         return super().form_valid(form)
     
+
+class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):
+    model = SubCategoria
+    template_name = 'inv/subcategoria_form.html'
+    context_object_name = "obj"
+    form_class = SubCategoriaForm
+    success_url = reverse_lazy('inv:subcategoria_list')
+    login_url='bases:login'
+
+    def form_valid(self,form):
+        form.instance.um = self.request.user.id
+        return super().form_valid(form)
+    
+
+
+class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
+    model = SubCategoria
+    template_name = 'inv/catalogos_del.html'
+    context_object_name = "obj"
+    success_url = reverse_lazy('inv:subcategoria_list')
+
+
+
+class MarcaView(LoginRequiredMixin,\
+     generic.ListView):
+    model = Marca
+    template_name = "inv/marca_list.html"
+    context_object_name = "obj"
+
+
+class MarcaNew(LoginRequiredMixin,
+                   generic.CreateView):
+    model=Marca
+    template_name="inv/marca_form.html"
+    context_object_name = 'obj'
+    form_class=MarcaForm
+    success_url= reverse_lazy("inv:marca_list")
+    success_message="Marca Creada"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        return super().form_valid(form)
+
+
+class MarcaEdit(LoginRequiredMixin,generic.UpdateView):
+    model=Marca
+    template_name="inv/marca_form.html"
+    context_object_name = 'obj'
+    form_class=MarcaForm
+    success_url= reverse_lazy("inv:marca_list")
+    success_message="Marca Editada"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id
+        return super().form_valid(form)

@@ -13,7 +13,9 @@
                             {{ obj.descripcion }}?</div>
                         <button type="submit" class="btn btn-danger"><i class="far fa-question-circle"></i>Si,
                             Eliminar</button>
-                        <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span
+                        <!--                         <a href="{% url 'inv:categoria_list' %}" class="btn btn-success"><span
+                                class="fa fa-undo"></span>Cancelar</a> -->
+                        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-success"><span
                                 class="fa fa-undo"></span>Cancelar</a>
                     </div>
                     <div class="col-auto">
