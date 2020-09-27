@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import request
+from django.shortcuts import render, redirect ,get_object_or_404
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import  LoginRequiredMixin
@@ -40,7 +41,7 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
     
 class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
     model = Categoria
-    template_name = 'inv/catalogos_del.html'
+    template_name = 'inv/catalogo_del.html'
     context_object_name = "obj"
     success_url = reverse_lazy('inv:categoria_list')
 
@@ -80,7 +81,7 @@ class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):
 
 class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
     model = SubCategoria
-    template_name = 'inv/catalogos_del.html'
+    template_name = 'inv/catalogo_del.html'
     context_object_name = "obj"
     success_url = reverse_lazy('inv:subcategoria_list')
 
@@ -118,3 +119,20 @@ class MarcaEdit(LoginRequiredMixin,generic.UpdateView):
     def form_valid(self, form):
         form.instance.um = self.request.user.id
         return super().form_valid(form)
+
+
+def marca_inactivar(request, pk):
+    #cart_item = get_object_or_404(Marca, id=id)
+
+    marca = Marca.objects.filter(pk=pk).first()
+    contexto= {}
+    template_name = 'inv/catalogo_del.html'
+
+    if not marca:
+        return redirect('inv:marca_list')
+
+    if request.method == 'GET':
+        contexto ={'obj':marca}
+
+    return render(request, template_name, contexto)
+
