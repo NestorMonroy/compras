@@ -1,5 +1,5 @@
 from django.http import request
-from django.shortcuts import render, redirect ,get_object_or_404
+from django.shortcuts import render, redirect 
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import  LoginRequiredMixin
@@ -122,8 +122,6 @@ class MarcaEdit(LoginRequiredMixin,generic.UpdateView):
 
 
 def marca_inactivar(request, pk):
-    #cart_item = get_object_or_404(Marca, id=id)
-
     marca = Marca.objects.filter(pk=pk).first()
     contexto= {}
     template_name = 'inv/catalogo_del.html'
@@ -133,6 +131,11 @@ def marca_inactivar(request, pk):
 
     if request.method == 'GET':
         contexto ={'obj':marca}
+
+    if request.method == 'POST':
+        marca.estado=False
+        marca.save()
+        return redirect('inv:marca_list')
 
     return render(request, template_name, contexto)
 
