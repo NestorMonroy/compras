@@ -84,6 +84,7 @@
                         <a class="collapse-item" href=" {% url 'inv:marca_list' %} ">Marca</a>
                         <a class="collapse-item" href=" {% url 'inv:um_list' %} ">Unidad de Medida</a>
                         <a class="collapse-item" href=" {% url 'inv:producto_list' %} ">Producto</a>
+                        <a class="collapse-item" href=" {% url 'cmp:proveedores_list' %} ">Proveedores</a>
 
                     </div>
 
@@ -491,6 +492,22 @@
             $('#popup').modal('hide');
             return false;
         }
+
+        function mensaje(msg,color='green'){
+            if (color=="success"){
+                color="green";
+                } 
+            if (color=="error") {
+                    color="red";
+                }
+            $.alert({
+                title:'',
+                theme:'material',
+                type:color,
+                content:msg
+                });
+        }
+
 
     </script>
     {% endblock%}
