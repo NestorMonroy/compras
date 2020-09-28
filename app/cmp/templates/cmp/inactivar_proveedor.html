@@ -45,7 +45,7 @@
   
         var pk = {{ obj.pk }};
         var template="{% url 'cmp:proveedor_inactivar' obj.id %}";
-        //template += id;
+        //template += pk;
         var data = {"id":pk};
         data = JSON.stringify(data);
   
