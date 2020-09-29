@@ -6,13 +6,17 @@ from django.contrib import messages
 
 from django.contrib.messages.views import SuccessMessageMixin
 
-from django.contrib.auth.mixins import  LoginRequiredMixin
+from django.contrib.auth.mixins import  LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm, ProductoForm
 
-class CategoriaView(LoginRequiredMixin, generic.ListView):
+from bases.views import SinPrivilegios
+
+
+class CategoriaView(SinPrivilegios, generic.ListView):
     model = Categoria
+    permission_required = "inv.view_categoria"
     template_name = 'inv/categoria_list.html'
     context_object_name = "obj"
     login_url = 'bases:login'
@@ -53,7 +57,8 @@ class CategoriaDel(LoginRequiredMixin, generic.DeleteView):
     context_object_name = "obj"
     success_url = reverse_lazy('inv:categoria_list')
 
-class SubCategoriaView(LoginRequiredMixin, generic.ListView):
+class SubCategoriaView(LoginRequiredMixin, PermissionRequiredMixin,  generic.ListView):
+    permission_required = "inv.view_subcategoria"
     model = SubCategoria
     template_name = 'inv/subcategoria_list.html'
     context_object_name = "obj"
@@ -95,9 +100,9 @@ class SubCategoriaDel(LoginRequiredMixin, generic.DeleteView):
 
 
 
-class MarcaView(LoginRequiredMixin,\
-     generic.ListView):
+class MarcaView(SinPrivilegios, generic.ListView):
     model = Marca
+    permission_required = "inv.view_marca"
     template_name = "inv/marca_list.html"
     context_object_name = "obj"
 
