@@ -243,11 +243,16 @@ class ProductoNew(SuccessMessageMixin,SinPrivilegios,generic.CreateView):
     success_message="Producto Creado"
     permission_required="inv.add_producto"
 
+    def form_valid(self, form):
+        form.instance.uc = self.request.user
+        return super().form_valid(form)
+    
     def get_context_data(self, **kwargs):
         context = super(ProductoNew, self).get_context_data(**kwargs)
         context["categorias"] = Categoria.objects.all()
         context["subcategorias"] = SubCategoria.objects.all()
         return context
+
 
 
 class ProductoEdit(SuccessMessageMixin, SinPrivilegios, generic.UpdateView):
