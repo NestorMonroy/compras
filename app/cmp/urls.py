@@ -3,7 +3,7 @@ from django.urls import path
 from .views import ProveedorView, ProveedorNew, ProveedorEdit, proveedorInactivar, \
     ComprasView, compras, CompraDetDelete
 
-from .reportes import reporte_compras
+from .reportes import reporte_compras, imprimir_compra
 
 
 urlpatterns = [
@@ -18,5 +18,7 @@ urlpatterns = [
     path('compras/<int:compra_id>/delete/<int:pk>',CompraDetDelete.as_view(), name="compras_del"),
 
     path('compras/listado', reporte_compras, name='compras_print_all'),
+    path('compras/<int:compra_id>/imprimir', imprimir_compra,name="compras_print_one"),
+
 
 ]
