@@ -35,7 +35,7 @@
     <div class="alert alert-info">No Hay Facturas</div>
     {% endif %}
     <div class="buttons-toolbar">
-        <a class="btn btn-success" href=""><i cass="far fa-calendar-plus"></i> Nuevo</a>
+        <a class="btn btn-success" href="{% url 'fac:factura_new' %}"><i cass="far fa-calendar-plus"></i> Nuevo</a>
     </div>
 
     <table 
@@ -51,7 +51,7 @@
     >
     <thead>
       <th data-sortable="true" data-field="id">No.</th>        
-      <th data-sortable="true" data-field="nombres">Cliente</th>
+      <th data-sortable="true" data-field="nombre">Cliente</th>
       <th data-sortable="true" data-field="apellidos">Total</th>
       <th data-field="estado">Estado</th>
       <th class="all">Acciones</th>
@@ -76,4 +76,33 @@
     </table>
   </div>
 </div>
+{% endblock %}
+{% block js_page %}
+<script>
+$(function(){
+  $("#f1, #f2").datetimepicker({
+      format: 'Y-m-d',
+      timepicker:false
+  });
+
+  $("#btnPrint").click(function(e){
+    e.preventDefault();
+    var f1,f2;
+    f1 = $("#f1").val();
+    f2 = $("#f2").val();
+    if(f1=="" || f1==null){
+      f1="2019-06-01";
+    }
+    if(f2=="" || f2==null){
+      var d = new Date();
+      var f2 = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+    }
+    
+    var url = "imprimir-todas/" + f1 + "/" + f2;
+
+    window.open(url,'facturas');
+    
+  });
+});
+</script>
 {% endblock %}

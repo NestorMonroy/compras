@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.http import HttpResponse
+from datetime import datetime
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
@@ -9,7 +10,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from bases.views import SinPrivilegios
 from .forms import ClienteForm
 
-from .models import Cliente, FacturaEnc
+import inv.views as inv
+from .models import Cliente, FacturaEnc, FacturaDet
+
 # Create your views here.
 
 class ClienteView(SinPrivilegios, generic.ListView):
@@ -75,3 +78,25 @@ class FacturaView(SinPrivilegios, generic.ListView):
     template_name = "fac/factura_list.html"
     context_object_name = "obj"
     permission_required="fac.view_facturaenc"
+
+
+@login_required(login_url='/login/')
+@permission_required('fac.change_facturaenc', login_url='bases:sin_privilegios')
+def facturas(request,id=None):
+    template_name='fac/facturas.html'
+
+    encabezado = {
+        "fecha": datetime.today()
+    }
+
+    detalle = {}
+    clientes = Cliente.objects.filter(estado=True)
+    
+    contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
+
+
+    return render(request,template_name,contexto)
+
+
+class ProductoView(inv.ProductoView):
+    template_name="fac/buscar_producto.html" 
