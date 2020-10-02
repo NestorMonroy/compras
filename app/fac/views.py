@@ -91,9 +91,31 @@ def facturas(request,id=None):
 
     detalle = {}
     clientes = Cliente.objects.filter(estado=True)
-    
-    contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
 
+    if request.method == "GET":
+        enc = FacturaEnc.objects.filter(pk=id).first()
+        
+        if not enc:
+            encabezado = {
+                'id':0,
+                'fecha':datetime.today(),
+                'cliente':0,
+                'sub_total':0.00,
+                'descuento':0.00,
+                'total': 0.00
+            }
+            detalle=None
+        else:
+            encabezado = {
+                'id':enc.id,
+                'fecha':enc.fecha,
+                'cliente':enc.cliente,
+                'sub_total':enc.sub_total,
+                'descuento':enc.descuento,
+                'total':enc.total
+            }
+            
+    contexto = {"enc":encabezado,"det":detalle,"clientes":clientes}
 
     return render(request,template_name,contexto)
 
