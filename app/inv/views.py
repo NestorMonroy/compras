@@ -261,7 +261,7 @@ class ProductoEdit(SuccessMessageMixin, SinPrivilegios, generic.UpdateView):
     context_object_name = 'obj'
     form_class=ProductoForm
     success_url= reverse_lazy("inv:producto_list")
-    success_message="Unidad Medida Editada"
+    success_message="Producto Editado"
     permission_required="inv.change_producto"
 
     def form_valid(self, form):

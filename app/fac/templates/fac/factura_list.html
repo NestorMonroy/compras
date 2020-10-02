@@ -30,47 +30,38 @@
     </div>
     <hr>
 
-    
+
     {% if not obj %}
     <div class="alert alert-info">No Hay Facturas</div>
     {% endif %}
     <div class="buttons-toolbar">
-        <a class="btn btn-success" href="{% url 'fac:factura_new' %}"><i cass="far fa-calendar-plus"></i> Nuevo</a>
+      <a class="btn btn-success" href="{% url 'fac:factura_new' %}"><i cass="far fa-calendar-plus"></i> Nuevo</a>
     </div>
 
-    <table 
-      id="table"
-      data-toggle="table"
-      data-pagination="true"
-      data-search="true"
-      data-show-columns="true"
-      data-show-toggle="true"
-      data-show-fullscreen="true"
-      data-toolbar=".buttons-toolbar"
-      data-locale="es-NI"
-    >
-    <thead>
-      <th data-sortable="true" data-field="id">No.</th>        
-      <th data-sortable="true" data-field="nombre">Cliente</th>
-      <th data-sortable="true" data-field="apellidos">Total</th>
-      <th data-field="estado">Estado</th>
-      <th class="all">Acciones</th>
-    </thead>
-    <tbody>
-      {% for item in obj%}
-      <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.cliente }}</td>
-        <td>{{ item.total }}</td>
-        <td>{{item.estado|yesno:"Activo,Inactivo"}}</td>
-        <td>
-          <a href="" class="href btn btn-warning btn-circle">
+    <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true"
+      data-show-toggle="true" data-show-fullscreen="true" data-toolbar=".buttons-toolbar" data-locale="es-NI">
+      <thead>
+        <th data-sortable="true" data-field="id">No.</th>
+        <th data-sortable="true" data-field="nombres">Cliente</th>
+        <th data-sortable="true" data-field="apellidos">Total</th>
+        <th data-field="estado">Estado</th>
+        <th class="all">Acciones</th>
+      </thead>
+      <tbody>
+        {% for item in obj%}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.cliente }}</td>
+          <td>{{ item.total }}</td>
+          <td>{{item.estado|yesno:"Activo,Inactivo"}}</td>
+          <td>
+            <a href="{% url 'fac:factura_edit' item.id %}" class="href btn btn-warning btn-circle">
               <i class="far fa-edit"></i>
-          </a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
 
 
     </table>
@@ -79,30 +70,30 @@
 {% endblock %}
 {% block js_page %}
 <script>
-$(function(){
-  $("#f1, #f2").datetimepicker({
+  $(function () {
+    $("#f1, #f2").datetimepicker({
       format: 'Y-m-d',
-      timepicker:false
-  });
+      timepicker: false
+    });
 
-  $("#btnPrint").click(function(e){
-    e.preventDefault();
-    var f1,f2;
-    f1 = $("#f1").val();
-    f2 = $("#f2").val();
-    if(f1=="" || f1==null){
-      f1="2019-06-01";
-    }
-    if(f2=="" || f2==null){
-      var d = new Date();
-      var f2 = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
-    }
-    
-    var url = "imprimir-todas/" + f1 + "/" + f2;
+    $("#btnPrint").click(function (e) {
+      e.preventDefault();
+      var f1, f2;
+      f1 = $("#f1").val();
+      f2 = $("#f2").val();
+      if (f1 == "" || f1 == null) {
+        f1 = "2019-06-01";
+      }
+      if (f2 == "" || f2 == null) {
+        var d = new Date();
+        var f2 = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      }
 
-    window.open(url,'facturas');
-    
+      var url = "imprimir-todas/" + f1 + "/" + f2;
+
+      window.open(url, 'facturas');
+
+    });
   });
-});
 </script>
 {% endblock %}
