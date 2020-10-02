@@ -6,6 +6,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <a href="#" class="btn btn-danger">Guardar</a>
+            <a href="{% url 'fac:factura_imprimir_one' enc.id %}" class="btn btn-success" target="_factura">Imprimir</a>
             <a href="{% url 'fac:factura_list' %}" class="btn btn-info">Cancelar</a>
         </div>
         <div class="card-body">
@@ -303,10 +304,8 @@
 
     });
 
-
-    //jquery confirm
     function borrar_detalle(id) {
-        //mensaje(id);
+        // mensaje(id);
         $.confirm({
             theme: "modern",
             icon: "fab fa-keycdn",
@@ -343,7 +342,7 @@
                         }
 
                         var data = { "usuario": usuario.val(), "pass": pass.val() };
-                        //console.log(data);
+                        console.log(data);
 
                         var token = '{{csrf_token}}';
                         $.ajax({
@@ -352,8 +351,8 @@
                             data: data,
                             url: '/fac/facturas/borrar-detalle/' + id,
                             success: function (r) {
-                                //console.log(r);
-                                if (r === "OK") {
+                                console.log(r);
+                                if (r === "ok") {
                                     location.reload(true);
                                 } else {
                                     mensaje(r, 'red');
