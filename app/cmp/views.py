@@ -15,6 +15,15 @@ from .forms import ProveedorForm, ComprasEncForm
 # Create your views here.
 from inv.models import Producto
 
+
+class MixinFormInvalid:
+    def form_invalid(self,form):
+        response = super().form_valid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
+
 class ProveedorView(SinPrivilegios, generic.ListView):
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
@@ -22,7 +31,7 @@ class ProveedorView(SinPrivilegios, generic.ListView):
     permission_required="cmp.view_proveedor"
 
 
-class ProveedorNew(SuccessMessageMixin, SinPrivilegios, generic.CreateView):
+class ProveedorNew(SuccessMessageMixin, MixinFormInvalid,  SinPrivilegios, generic.CreateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'
@@ -35,9 +44,10 @@ class ProveedorNew(SuccessMessageMixin, SinPrivilegios, generic.CreateView):
         form.instance.uc = self.request.user
         #print(self.request.user.id)
         return super().form_valid(form)
+    
 
 
-class ProveedorEdit(SuccessMessageMixin, SinPrivilegios, generic.UpdateView):
+class ProveedorEdit(SuccessMessageMixin,MixinFormInvalid,  SinPrivilegios, generic.UpdateView):
     model=Proveedor
     template_name="cmp/proveedor_form.html"
     context_object_name = 'obj'

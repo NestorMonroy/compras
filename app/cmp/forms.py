@@ -2,12 +2,14 @@ from django import forms
 
 from .models import Proveedor, ComprasEnc
 
+
 class ProveedorForm(forms.ModelForm):
     email = forms.EmailField(max_length=254)
+
     class Meta:
-        model=Proveedor
-        exclude = ['um','fm','uc','fc']
-        widget={'descripcion': forms.TextInput()}
+        model = Proveedor
+        exclude = ['um', 'fm', 'uc', 'fc']
+        widget = {'descripcion': forms.TextInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -25,7 +27,7 @@ class ProveedorForm(forms.ModelForm):
             if not self.instance.pk:
                 print("Registro ya existe")
                 raise forms.ValidationError("Registro Ya Existe")
-            elif self.instance.pk!=sc.pk:
+            elif self.instance.pk != sc.pk:
                 print("Cambio no permitido")
                 raise forms.ValidationError("Cambio No Permitido")
         except Proveedor.DoesNotExist:
@@ -36,12 +38,12 @@ class ProveedorForm(forms.ModelForm):
 class ComprasEncForm(forms.ModelForm):
     fecha_compra = forms.DateInput()
     fecha_factura = forms.DateInput()
-    
+
     class Meta:
-        model=ComprasEnc
-        fields=['proveedor','fecha_compra','observacion',
-            'no_factura','fecha_factura','sub_total',
-            'descuento','total']
+        model = ComprasEnc
+        fields = ['proveedor', 'fecha_compra', 'observacion',
+                  'no_factura', 'fecha_factura', 'sub_total',
+                  'descuento', 'total']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
